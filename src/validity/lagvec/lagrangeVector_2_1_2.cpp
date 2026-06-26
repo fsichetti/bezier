@@ -9,7 +9,7 @@ void lagrangeVector<2, 1, 2>(const span<const fp_t> cpFP, const span<Interval> o
 	assert(cpFP.size() == 18);
 	assert(out.size() == 16);
 	std::array<Interval, 18> cp;
-	for (uint i = 0; i < 18; ++i) cp[i] = cpFP[i];
+	for (int i = 0; i < 18; ++i) cp[i] = cpFP[i];
 	I tmp_0 = 3*cp[0];
 	I tmp_1 = -4*cp[14];
 	I tmp_2 = 3*cp[1];

@@ -5,30 +5,30 @@
 #include <memory>
 #include <fstream>
 
-#ifdef HDF5_INTERFACE
+#if(defined GMP_INTERFACE && defined HDF5_INTERFACE)
 #include <H5Cpp.h>
 
 constexpr char SEP = ',';
 
 template<
-    element_validity::uint n, 
-    element_validity::uint s, 
-    element_validity::uint p
+    int n, 
+    int s, 
+    int p
 >
 element_validity::fp_t processData(
     element_validity::Settings args,
-    element_validity::uint nNodesPerElem,
-    element_validity::uint numberOfElements,
+    int nNodesPerElem,
+    int numberOfElements,
     std::vector<element_validity::fp_t> nodes,
     std::ostream *out = nullptr
 ) {
     using namespace element_validity;
     Timer timer;
 
-    const uint nCoordPerElem = nNodesPerElem*n*2;
-    const uint nElements =
+    const int nCoordPerElem = nNodesPerElem*n*2;
+    const int nElements =
         args.numElem == 0 ? numberOfElements : args.numElem;
-    const uint lastElem = args.firstElem + nElements;
+    const int lastElem = args.firstElem + nElements;
     fp_t minT = 1;
 
     ContinuousValidator<n, s, p> cChecker(args.numThreads);
@@ -51,10 +51,10 @@ element_validity::fp_t processData(
                 << "description" << std::endl;
 
         // Continuous check
-        for (uint e=args.firstElem; e<lastElem; ++e) {
-            const uint elemOffset = e*nCoordPerElem;
+        for (int e=args.firstElem; e<lastElem; ++e) {
+            const int elemOffset = e*nCoordPerElem;
             span<fp_t> element(nodes.data() + elemOffset, nCoordPerElem);
-            std::vector<uint> h;
+            std::vector<int> h;
             Validator::Info info;
             if (args.preCheck) {
                 const Validity v0 = preChecker.isValidAtTime(element, 0);
@@ -95,7 +95,7 @@ element_validity::fp_t processData(
                 *out << info.spaceDepth << SEP;
                 *out << info.timeDepth << SEP;
                 *out << microseconds << SEP;
-                for (uint u : h) *out << u << ' ';
+                for (int u : h) *out << u << ' ';
                 *out << SEP;
                 *out << info.description() << std::endl;
             }
@@ -103,8 +103,8 @@ element_validity::fp_t processData(
         }
     }
     else {
-        std::vector<uint> globalH;
-        uint invalidElemID;
+        std::vector<int> globalH;
+        int invalidElemID;
         fp_t tInv;
         span<fp_t> elements(
             nodes.data() + args.firstElem*nCoordPerElem,
@@ -120,7 +120,7 @@ element_validity::fp_t processData(
             *out << "Time in seconds: " << seconds << std::endl;
             *out << "Invalid element ID: " << invalidElemID << std::endl;
             *out << "Space subdivision hierarchy: ";
-            for (uint u : globalH) *out << u << ' ';
+            for (int u : globalH) *out << u << ' ';
             *out << "Certified time of inversion: " << tInv << std::endl;
             *out << std::endl;
         }
@@ -134,9 +134,9 @@ int main(int argc, char** argv) {
     Settings args(argc, argv);
     if (args.abort) return 0;
 
-    uint dimension;
-    uint nNodesPerElem;
-    uint nElements;
+    int dimension;
+    int nNodesPerElem;
+    int nElements;
     std::vector<fp_t> nodes;
 
     {
@@ -144,10 +144,10 @@ int main(int argc, char** argv) {
         std::cout << "Reading file..." << std::flush;
         H5::H5File file(args.filePath, H5F_ACC_RDONLY);
 
-        const auto H5UINT = H5::PredType::NATIVE_INT;
-        file.openDataSet("Dimension").read(&dimension, H5UINT);
-        file.openDataSet("NumberOfHighOrderNodes").read(&nNodesPerElem, H5UINT);
-        file.openDataSet("NumberOfSimplices").read(&nElements, H5UINT);
+        const auto H5int = H5::PredType::NATIVE_INT;
+        file.openDataSet("Dimension").read(&dimension, H5int);
+        file.openDataSet("NumberOfHighOrderNodes").read(&nNodesPerElem, H5int);
+        file.openDataSet("NumberOfSimplices").read(&nElements, H5int);
 
         H5::DataSet dataset = file.openDataSet("Nodes");
         H5::DataSpace dataspace = dataset.getSpace();
@@ -192,7 +192,9 @@ int main(int argc, char** argv) {
     else IFPROC(3, 3, 1)
     else IFPROC(3, 3, 2)
     else IFPROC(3, 3, 3)
+    #ifdef INSTANTIATE_3_3_4
     else IFPROC(3, 3, 4)
+    #endif
     #undef IFPROC
     else throw std::invalid_argument("Not implemented");
     std::cout << " Done." << std::endl;
@@ -201,6 +203,12 @@ int main(int argc, char** argv) {
     return 0;
 }
 #else
-#warning "HDF5 interface disabled, ignoring main"
+
+#ifdef _MSC_VER
+    #pragma message("HDF5 or GMP interface disabled, ignoring main")
+#elif defined(__GNUC__) || defined(__clang__)
+    #warning "HDF5 or GMP interface disabled, ignoring main"
+#endif
+
 int main(int argc, char** argv) { return 0; }
 #endif

@@ -14,7 +14,7 @@ void RobustInterval::init() {
 	#endif
 };
 
-
+#ifdef GMP_INTERFACE
 RobustInterval RobustInterval::fromRational(const Rational &rat) {
 	// TODO change this function to not use nextafter
 	const double inf = std::numeric_limits<double>::max();
@@ -24,14 +24,11 @@ RobustInterval RobustInterval::fromRational(const Rational &rat) {
 	if (rat > 0) return RobustInterval(d, std::nextafter(d, inf));
 	return RobustInterval(0);
 }
-
+#endif
 
 #else
 
-const fp_t RobustInterval::POSINF = std::numeric_limits<fp_t>::max();
-const fp_t RobustInterval::NEGINF = std::copysign(POSINF, -1);
-
-RobustInterval RobustInterval::pow(uint e) const {
+RobustInterval RobustInterval::pow(int e) const {
 	switch (e) {
 	// Base cases
 	case 0: return RobustInterval(1);
@@ -45,12 +42,14 @@ RobustInterval RobustInterval::pow(uint e) const {
 	}
 }
 
+#ifdef GMP_INTERFACE
 RobustInterval RobustInterval::fromRational(const Rational &rat) {
 		const double d = static_cast<double>(rat);
 		if (rat < 0) return RobustInterval(roundDn(d), d);
 		if (rat > 0) return RobustInterval(d, roundUp(d));
 		return RobustInterval(0);
 	}
+#endif
 #endif
 
 std::ostream& operator<<(std::ostream &ost, const RobustInterval &r) {

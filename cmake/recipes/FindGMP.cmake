@@ -6,7 +6,6 @@ find_path(GMP_INCLUDES
         gmp.h
     PATHS
         ENV GMP_DIR
-        ${GMP_WINDOWS_PATH}
         ${INCLUDE_INSTALL_DIR}
     PATH_SUFFIXES
         include
@@ -15,10 +14,9 @@ find_path(GMP_INCLUDES
 find_library(GMP_LIBRARIES
     NAMES
         gmp
-        libgmp
+        libgmp-10
     PATHS
         ENV GMP_DIR
-        ${GMP_WINDOWS_PATH}
         ${LIB_INSTALL_DIR}
     PATH_SUFFIXES
         lib
@@ -33,7 +31,6 @@ if(WIN32)
             libgmp-10.dll
         PATHS
             ENV GMP_DIR
-            ${GMP_WINDOWS_PATH}
             ${LIB_INSTALL_DIR}
         PATH_SUFFIXES
             lib
@@ -48,7 +45,7 @@ find_package_handle_standard_args(GMP
         GMP_LIBRARIES
         ${GMP_EXTRA_VARS}
     REASON_FAILURE_MESSAGE
-        "GMP is not installed on your system. Install GMP using your preferred package manager."
+        "GMP is not installed on your system. Either install GMP using your preferred package manager, or disable libigl modules that depend on GMP, such as CORK and CGAL. See LibiglOptions.cmake.sample for configuration options. Do not forget to delete your <build>/CMakeCache.txt for the changes to take effect."
 )
 mark_as_advanced(GMP_INCLUDES GMP_LIBRARIES)
 

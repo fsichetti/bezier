@@ -12,7 +12,7 @@ Interval lagrangeEvaluate<3, 2, 1>(
 	assert(xFP.size() == 3);
 	assert(lagVec.size() == 9);
 	std::array<Interval, 3> x;
-	for (uint i = 0; i < 3; ++i) x[i] = xFP[i];
+	for (int i = 0; i < 3; ++i) x[i] = xFP[i];
 	Interval acc = 0.;
 	I tmp_0 = powi(x[2], 2);
 	I tmp_1 = -2*tmp_0;

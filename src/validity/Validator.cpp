@@ -8,7 +8,7 @@ RealInterval Validator::minclusion(
 	Interval lo(std::numeric_limits<fp_t>::max());
 	for (const Interval &b : B) lo = min(lo, b);
 	Interval hi(std::numeric_limits<fp_t>::max());
-	for (const uint c : interpIndices) hi = min(hi, B.at(c));
+	for (const int c : interpIndices) hi = min(hi, B.at(c));
 	return {lo.lower(), hi.upper()};
 }
 
@@ -25,7 +25,7 @@ std::ostream& operator<<(std::ostream& ost, const Validator::Subdomain &s) {
 	ost << "t: " << s.time << std::endl;
 	ost << "I: " << s.incl << std::endl;
 	ost << "Q: ";
-	for (const uint x : s.qSequence) ost << x << ", ";
+	for (const int x : s.qSequence) ost << x << ", ";
 	ost << std::endl;
 	ost << "B: ";
 	for (const Interval &b : s.B) ost << '\t' << b << std::endl;
@@ -34,7 +34,7 @@ std::ostream& operator<<(std::ostream& ost, const Validator::Subdomain &s) {
 }
 
 // Copy the path I took to get here
-void Validator::Subdomain::copySequence(std::vector<uint> &dst) const {
+void Validator::Subdomain::copySequence(std::vector<int> &dst) const {
 	dst.clear();
 	dst.reserve(depth());
 	std::copy(

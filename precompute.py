@@ -531,7 +531,7 @@ def lag_vec_formatted(file, n, s, p, dynamic):
 	file.write(f'\n\tassert(cpFP.size() == {NCP});')
 	file.write(f'\n\tassert(out.size() == {len(expr)});')
 	file.write(f'\n\tstd::array<Interval, {NCP}> cp;')
-	file.write(f'\n\tfor (uint i = 0; i < {NCP}; ++i) cp[i] = cpFP[i];')
+	file.write(f'\n\tfor (int i = 0; i < {NCP}; ++i) cp[i] = cpFP[i];')
 	if TO_ORIGIN:
 		file.write(f'\n\tfor (int i = S-1; i >= 0; --i) cp[i] -= cp[i%{n}];')
 
@@ -656,7 +656,7 @@ def lag_eval_formatted(file, n, s, p, dynamic):
 	file.write(f'\n\tassert(lagVec.size() == {len(expr)});')
 	assert len(expr) == len(temp_expr[1])
 	file.write(f'\n\tstd::array<Interval, {nx}> x;')
-	file.write(f'\n\tfor (uint i = 0; i < {nx}; ++i) x[i] = xFP[i];')
+	file.write(f'\n\tfor (int i = 0; i < {nx}; ++i) x[i] = xFP[i];')
 	file.write(f'\n\tInterval acc = 0.;')
 	my_ccode = MyCodePrinter().doprint
 	if (__debug__): print('Writing temporaries')
@@ -676,7 +676,7 @@ def lag_eval_formatted(file, n, s, p, dynamic):
 def corners_formatted(n, s, p, dynamic):
 	func_name = 'cornerIndices' + ('T' if dynamic else '')
 	ind = map(str,corner_indices_set(n, s, p, dynamic))
-	return f'template<>\nvoid {func_name}<{n}, {s}, {p}>(std::vector<uint> &v) ' + \
+	return f'template<>\nvoid {func_name}<{n}, {s}, {p}>(std::vector<int> &v) ' + \
 		'{ v = {' + ','.join(ind) + '}; }'
 
 ## Write ##

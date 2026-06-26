@@ -1,12 +1,33 @@
-ExternalProject_Add(gmp_external
-    URL https://gmplib.org/download/gmp/gmp-6.3.0.tar.xz
-    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gmp
-    CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/gmp/src/gmp_external/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/gmp/install --enable-cxx > /dev/null
-    BUILD_COMMAND make
-    BUILD_IN_SOURCE 1
-)
+# Try to find the GNU Multiple Precision Arithmetic Library (GMP)
+# See http://gmplib.org/
 
-set(GMP_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/gmp/install/include)
-set(GMP_LIBRARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/gmp/install/lib)
-target_link_libraries(bezier PRIVATE ${GMP_LIBRARY_DIR}/libgmp.a ${GMP_LIBRARY_DIR}/libgmpxx.a)
-target_include_directories(bezier PRIVATE ${GMP_INCLUDE_DIR})
+if(TARGET gmp::gmp)
+    return()
+endif()
+
+# Download precompiled .dll on Windows
+if(WIN32)
+    message(STATUS "Third-party: downloading gmp + mpfr")
+
+    include(CPM)
+    CPMAddPackage(
+        NAME gmp_mpfr
+        URL "https://github.com/CGAL/cgal/releases/download/v5.2.1/CGAL-5.2.1-win64-auxiliary-libraries-gmp-mpfr.zip"
+        DOWNLOAD_ONLY YES
+    )
+
+    # For CGAL and Cork
+    set(ENV{GMP_DIR} "${gmp_mpfr_SOURCE_DIR}/gmp")
+    set(ENV{MPFR_DIR} "${gmp_mpfr_SOURCE_DIR}/gmp")
+else()
+    # On Linux/macOS, gmp+mpfr should be installed system-wide
+endif()
+
+message(STATUS "Third-party: creating target 'gmp::gmp'")
+
+# Find_package will look for our downloaded lib on Windows, and system-wide on Linux/macOS
+find_package(GMP REQUIRED)
+
+if(NOT TARGET gmp::gmp)
+    message(FATAL_ERROR "Creation of target 'gmp::gmp' failed")
+endif()

@@ -3,9 +3,9 @@
 #include <vector>
 
 namespace element_validity {
-	template<uint n, uint s, uint p>
-	void cornerIndices(std::vector<uint> &);
+	template<int n, int s, int p>
+	void cornerIndices(std::vector<int> &);
 
-	template<uint n, uint s, uint p>
-	void cornerIndicesT(std::vector<uint> &);
+	template<int n, int s, int p>
+	void cornerIndicesT(std::vector<int> &);
 }

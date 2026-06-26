@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef GMP_INTERFACE
+
 #include <gmpxx.h>
 
 namespace element_validity {
@@ -98,3 +100,5 @@ template<> struct Eigen::NumTraits<Rational> :
 	};
 };
 */
+
+#endif

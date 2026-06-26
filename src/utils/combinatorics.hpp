@@ -4,14 +4,14 @@
 namespace element_validity {
 
 	// Binomial coefficient
-	constexpr uint binom(uint n, uint k) {
+	constexpr int binom(int n, int k) {
 		// edge cases
 		if (k>n) return 0;
 		if (k==0 || k==n) return 1;
 		k = std::min(k, n-k);
 		// accumulate results
-		uint acc = 1;
-		for (uint i=0; i<k; ++i) {
+		int acc = 1;
+		for (int i=0; i<k; ++i) {
 			acc = (acc * (n-i)) / (i+1);
 		}
 		return acc;
@@ -19,7 +19,7 @@ namespace element_validity {
 
 	// Positive integer power
 	template<typename T>
-	constexpr T powi(T n, uint e) {
+	constexpr T powi(T n, int e) {
 		switch(e) {
 		// Base cases
 		case 0: return 1;
@@ -36,13 +36,13 @@ namespace element_validity {
 	}
 
 	// Number of control points
-	constexpr uint nControlGeoMap(uint n, uint s, uint p) {
+	constexpr int nControlGeoMap(int n, int s, int p) {
 		return binom(p+s, s) * powi(p+1, n - s);
 	}
 
 	// Number of control points for the jacobian
-	constexpr uint nControlJacobian(uint n, uint s, uint p, bool t) {
-		uint L = binom(n*p, s) * powi(n * p, n - s);
+	constexpr int nControlJacobian(int n, int s, int p, bool t) {
+		int L = binom(n*p, s) * powi(n * p, n - s);
 		return t ? L * (n+1) : L;
 	}
 }

@@ -4,7 +4,7 @@
 #include <array>
 
 namespace element_validity {
-	template<uint n, uint s, uint p>
+	template<int n, int s, int p>
 	Interval lagrangeEvaluate(
 		const span<const fp_t>,
 		const span<const Interval>

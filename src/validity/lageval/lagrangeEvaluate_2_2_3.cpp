@@ -12,7 +12,7 @@ Interval lagrangeEvaluate<2, 2, 3>(
 	assert(xFP.size() == 2);
 	assert(lagVec.size() == 15);
 	std::array<Interval, 2> x;
-	for (uint i = 0; i < 2; ++i) x[i] = xFP[i];
+	for (int i = 0; i < 2; ++i) x[i] = xFP[i];
 	Interval acc = 0.;
 	I tmp_0 = x[0]*x[1];
 	I tmp_1 = powi(x[0], 2);
@@ -46,7 +46,7 @@ Interval lagrangeEvaluate<2, 2, 3>(
 	I tmp_29 = 32*tmp_0 + tmp_18;
 	I tmp_30 = -16*tmp_5*x[0];
 	I tmp_31 = tmp_12 + tmp_22 + tmp_28;
-	acc += lagVec[0] * ((R(140, 3))*tmp_0 + (R(70, 3))*tmp_1 + tmp_10 - 80*tmp_11 + tmp_12 + tmp_14 - R(80, 3)*tmp_2 + tmp_4 + (R(70, 3))*tmp_5 - R(80, 3)*tmp_6 + tmp_8 - 80*tmp_9 - R(25, 3)*x[0] - R(25, 3)*x[1] + 1);
+	acc += lagVec[0] * ((R(140, 3))*tmp_0 + (R(70, 3))*tmp_1 + tmp_10 - 80*tmp_11 + tmp_12 + tmp_14 - R(80, 3)*tmp_2 + tmp_4 + (R(70, 3))*tmp_5 - R(80, 3)*tmp_6 + tmp_8 - 80*tmp_9 - R(25, 3)*x[0] - R(25, 3)*x[1] + Interval(1.));
 	acc += lagVec[1] * (96*tmp_1*x[1] - tmp_12 - tmp_16 - tmp_17 - tmp_19 + 192*tmp_5*x[0] - R(208, 3)*tmp_5 + 96*tmp_6 + 16*x[1]);
 	acc += lagVec[2] * (-tmp_15 + tmp_16 + tmp_20 + tmp_21 + 76*tmp_5 + 64*tmp_7 - 144*tmp_9 - 12*x[1]);
 	acc += lagVec[3] * (-tmp_17 - tmp_24 - R(112, 3)*tmp_5 + (R(224, 3))*tmp_6 + (R(16, 3))*x[1]);

@@ -15,3 +15,19 @@ if(EIGEN_INTERFACE)
 	target_link_libraries(eigen_tests PRIVATE bezier::bezier)
 	target_link_libraries(eigen_tests PRIVATE bezier_interface)
 endif()
+
+################################################################################
+# Register tests
+################################################################################
+
+FetchContent_GetProperties(catch2)
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+include(Catch)
+
+# Register tests
+set(PARSE_CATCH_TESTS_ADD_TO_CONFIGURE_DEPENDS ON)
+catch_discover_tests(unit_tests)
+
+if(EIGEN_INTERFACE)
+catch_discover_tests(eigen_tests)
+endif()

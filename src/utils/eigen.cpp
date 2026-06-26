@@ -1,5 +1,6 @@
 #ifdef EIGEN_INTERFACE
 #include "eigen.hpp"
+#include <cassert>
 
 namespace element_validity {
 std::vector<double> convertEigenMatrix(const Eigen::MatrixXd& mat) {

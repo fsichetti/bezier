@@ -12,7 +12,7 @@ Interval lagrangeEvaluate<2, 2, 4>(
 	assert(xFP.size() == 2);
 	assert(lagVec.size() == 28);
 	std::array<Interval, 2> x;
-	for (uint i = 0; i < 2; ++i) x[i] = xFP[i];
+	for (int i = 0; i < 2; ++i) x[i] = xFP[i];
 	Interval acc = 0.;
 	I tmp_0 = x[0]*x[1];
 	I tmp_1 = powi(x[0], 2);
@@ -97,7 +97,7 @@ Interval lagrangeEvaluate<2, 2, 4>(
 	I tmp_80 = 216*tmp_14 + tmp_68;
 	I tmp_81 = -27*tmp_13 - 972*tmp_27;
 	I tmp_82 = -90*tmp_18 + 378*tmp_19 + tmp_22 + tmp_52 + tmp_62;
-	acc += lagVec[0] * ((R(812, 5))*tmp_0 + (R(406, 5))*tmp_1 - R(1134, 5)*tmp_10 + tmp_12 - R(1323, 2)*tmp_13 + 1260*tmp_14 - 1134*tmp_15 + tmp_17 - R(1323, 2)*tmp_18 + 1260*tmp_19 - R(441, 2)*tmp_2 - 1134*tmp_20 + tmp_22 + 1890*tmp_23 - 2268*tmp_24 + tmp_26 - 2268*tmp_27 + tmp_29 + 315*tmp_3 + tmp_31 - R(1134, 5)*tmp_4 + tmp_6 + (R(406, 5))*tmp_7 - R(441, 2)*tmp_8 + 315*tmp_9 - R(147, 10)*x[0] - R(147, 10)*x[1] + 1);
+	acc += lagVec[0] * ((R(812, 5))*tmp_0 + (R(406, 5))*tmp_1 - R(1134, 5)*tmp_10 + tmp_12 - R(1323, 2)*tmp_13 + 1260*tmp_14 - 1134*tmp_15 + tmp_17 - R(1323, 2)*tmp_18 + 1260*tmp_19 - R(441, 2)*tmp_2 - 1134*tmp_20 + tmp_22 + 1890*tmp_23 - 2268*tmp_24 + tmp_26 - 2268*tmp_27 + tmp_29 + 315*tmp_3 + tmp_31 - R(1134, 5)*tmp_4 + tmp_6 + (R(406, 5))*tmp_7 - R(441, 2)*tmp_8 + 315*tmp_9 - R(147, 10)*x[0] - R(147, 10)*x[1] + Interval(1.));
 	acc += lagVec[1] * (7776*tmp_1*tmp_8 + 1044*tmp_1*x[1] + 1296*tmp_10 - 5022*tmp_14 - 1674*tmp_19 - tmp_22 + 1296*tmp_3*x[1] - tmp_32 - tmp_33 - tmp_34 - tmp_35 - tmp_36 - tmp_38 + 2088*tmp_7*x[0] - R(1566, 5)*tmp_7 + 1044*tmp_8 + 5184*tmp_9*x[0] - 1674*tmp_9 + 36*x[1]);
 	acc += lagVec[2] * (-3078*tmp_10 - 2610*tmp_13 + 7884*tmp_14 - 9396*tmp_15 - R(1071, 2)*tmp_18 + 486*tmp_19 - 9720*tmp_24 - 3564*tmp_27 + tmp_39 + tmp_40 + tmp_41 + tmp_43 + tmp_44 + (R(1053, 2))*tmp_7 - R(4149, 2)*tmp_8 + 3699*tmp_9 - 45*x[1]);
 	acc += lagVec[3] * (180*tmp_1*x[1] + 3888*tmp_10 - 1296*tmp_11 - 6120*tmp_14 - tmp_35 - tmp_42 - tmp_45 - tmp_46 - tmp_47 + 1692*tmp_7*x[0] - 508*tmp_7 + 2232*tmp_8 + 8424*tmp_9*x[0] - 4356*tmp_9 + 40*x[1]);
