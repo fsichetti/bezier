@@ -41,6 +41,7 @@ template<int n, int s, int p>
 JacobianEvaluator<n, s, p>::JacobianEvaluator(const span<const fp_t> cp) :
 	numEl(cp.size() / (numCoordsPerElem)
 ) {
+	Interval::init();
 	assert(cp.size() == numEl * numCoordsPerElem);
 	coeffs.resize(numEl * numLagCoefPerElem);
 	for (int i=0; i < numEl; ++i) {

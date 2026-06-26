@@ -26,6 +26,7 @@ class StaticValidator : public Validator {
 
 	public:
 	StaticValidator(int nThreads = 1) : Validator(nThreads) {
+		Interval::init();
 		initMatrices<n, s, p>(matL2B, matQ);
 		cornerIndices<n, s, p>(interpIndices);
 	}
@@ -213,6 +214,7 @@ Validity StaticValidator<n, s, p>::isValidMesh(
 	std::atomic<bool> foundInvalid = false;
 
 	par_for(numEl, nThreads, [&](int start, int end, int thread_id) {
+		Interval::init();
 		for (int e = start; e < end; ++e) {
 			if (foundInvalid) {
 				timings.at(e) = 0;

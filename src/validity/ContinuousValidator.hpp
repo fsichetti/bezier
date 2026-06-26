@@ -32,6 +32,7 @@ class ContinuousValidator : public Validator {
 
 	public:
 	ContinuousValidator(int nThreads = 1) : Validator(nThreads) {
+		Interval::init();
 		initMatricesT<n, s, p>(matL2B, matT, matQ);
 		cornerIndicesT<n, s, p>(interpIndices);
 	}
@@ -268,6 +269,7 @@ fp_t ContinuousValidator<n, s, p>::maxTimeStepMesh(
 	std::vector<std::vector<int>> hierarchies(numEl);
 
 	par_for(numEl, nThreads, [&](int start, int end, int thread_id) {
+		Interval::init();
 		for (int e = start; e < end; ++e) {
 			span<const fp_t> element(
 				cp.data() + numCoordsPerElem * e, numCoordsPerElem);
